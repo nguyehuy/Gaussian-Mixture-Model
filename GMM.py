@@ -49,6 +49,17 @@ class GMM:
 
         return self.gamma
 
+    def m_step(self, X):
+
+        N_k= np.sum(self.gamma, axis=0)
+        for c in range(self.C):
+            self.mu[c, :]= np.dot(self.gamma[:,c].T, X) / N_k[c]
+            self.sigma[c, :, :]= np.dot((X-self.mu[c,:]).T, (X-self.mu[c,:])*(self.gamma[:, c].reshape(-1,1)))
+            self.pi[c]=N_k[c]/ X.shape[0]
+        
+        return self.mu, self.pi, self.sigma
+        
+
 
 
 
