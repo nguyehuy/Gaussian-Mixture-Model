@@ -59,6 +59,16 @@ class GMM:
         
         return self.mu, self.pi, self.sigma
         
+    def calculate_log_likelihood(self, X):
+        a= np.zeros(X.shape[0])
+
+        for c in range(self.C):
+            a +=  multivariate_normal.pdf(X, mean=self.mu[c, :], cov=self.sigma[c,:,:], allow_singular=True)
+        
+        a= np.log(a)
+        self.log_likelihood=np.sum(a)
+        return self.log_likelihood
+        
 
 
 
